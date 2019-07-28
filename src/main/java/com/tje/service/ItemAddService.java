@@ -9,7 +9,7 @@ import com.tje.repo.Board_itemDAO;
 import com.tje.repo.SimpleBoardItemViewDAO;
 
 @Service
-public class AddItemService {
+public class ItemAddService {
 	@Autowired
 	private Board_itemDAO board_itemDAO;
 	

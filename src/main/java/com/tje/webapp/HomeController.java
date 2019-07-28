@@ -21,9 +21,11 @@ import com.oreilly.servlet.multipart.DefaultFileRenamePolicy;
 import com.tje.model.Board_Item;
 import com.tje.model.Board_Notice;
 import com.tje.model.SimpleBoardFreeView;
+import com.tje.model.SimpleBoardItemView;
 import com.tje.page.Criteria;
 import com.tje.page.PageMaker;
-import com.tje.service.AddItemService;
+import com.tje.service.ItemAddService;
+import com.tje.service.ItemViewService;
 import com.tje.service.AllItemListService;
 import com.tje.service.Board_NoticeSelectAllByBoardIdDescService;
 import com.tje.service.SimpleBoardItemListCountCriteriaService;
@@ -43,7 +45,9 @@ public class HomeController {
 	@Autowired
 	private SimpleBoardItemListCountCriteriaService sbilccService;
 	@Autowired
-	private AddItemService aiService;
+	private ItemAddService aiService;
+	@Autowired
+	private ItemViewService ivService;
 	
 	@RequestMapping("/")
 	public String home(HttpServletResponse res, HttpServletRequest req) {
@@ -157,6 +161,18 @@ public class HomeController {
 		}
 		
 		return "상품 추가 과정에서 문제가 발생하였습니다.";
+	}
+	
+	@GetMapping("/item_view/{board_id}")
+	public String item_view(Model model, 
+			@PathVariable(value = "board_id") Integer board_id) {
+		
+		SimpleBoardItemView item=new SimpleBoardItemView();
+		item.setBoard_id(board_id);
+		
+		model.addAttribute("searchedItem", ivService.service(item));
+		
+		return "item_view";
 	}
 	
 	@RequestMapping("/review")
